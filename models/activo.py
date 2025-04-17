@@ -1,5 +1,7 @@
 # models/activo.py
 from sqlalchemy import Column, Integer, String, Numeric, DateTime
+from sqlalchemy.orm import relationship
+
 from models.base import Base
 from datetime import datetime
 
@@ -12,3 +14,4 @@ class Activo(Base):
     precio_actual = Column(Numeric(15, 2), nullable=False)
     mercado = Column(String(100), nullable=False)
     fecha_actualizacion = Column(DateTime, default=datetime.utcnow)
+    ordenes = relationship("Orden", back_populates="activo")

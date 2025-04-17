@@ -1,0 +1,18 @@
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+
+# Archivos de PyCharm
+.idea/
+
+# Archivos de entorno
+.env
+*.db
+
+# Archivos generados
+*.log

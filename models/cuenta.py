@@ -13,3 +13,4 @@ class Cuenta(Base):
     estado = Column(String(20), default="activa")
     fecha_creacion = Column(DateTime, default=datetime.utcnow)
     usuario = relationship("Usuario", back_populates="cuentas")
+    ordenes = relationship("Orden", back_populates="cuenta")
