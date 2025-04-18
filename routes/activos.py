@@ -1,4 +1,3 @@
-# routes/activos.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
@@ -9,7 +8,7 @@ activos_router = APIRouter(prefix="/activos", tags=["activos"])
 
 @activos_router.post("/", response_model=ActivoCreate)
 def crear_activo(activo: ActivoCreate, db: Session = Depends(get_db)):
-    db_activo = Activo(
+    db_activo = models.Activo(
         tipo_activo=activo.tipo_activo,
         nombre_activo=activo.nombre_activo,
         ticker=activo.ticker,

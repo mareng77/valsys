@@ -1,4 +1,3 @@
-# routes/usuarios.py
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
@@ -7,9 +6,12 @@ from schemas.usuario import UsuarioCreate, UsuarioResponse, ContactInfo, RolCrea
 
 usuarios_router = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
-@usuarios_router.post("/", response_model=UsuarioCreate)
+@usuarios_router.post("/", response_model=UsuarioResponse)
 def crear_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
-    db_usuario = Usuario(
+    email_existente = db.query(models.Usuario).filter(models.Usuario.email == usuario.email).first()
+    if email_existente:
+        raise HTTPException(status_code=400, detail="El email ya está en uso")
+    db_usuario = models.Usuario(
         nombre_completo=usuario.nombre_completo,
         email=usuario.email,
         contraseña_hash=usuario.contraseña_hash,
@@ -18,75 +20,32 @@ def crear_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
     db.add(db_usuario)
     db.commit()
     db.refresh(db_usuario)
-    return usuario
+    return db_usuario
 
-@usuarios_router.get("/{id_usuario}", response_model=UsuarioResponse)
-def obtener_usuario(id_usuario: int, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.id_usuario == id_usuario).first()
+@usuarios_router.get("/{id_usuario}/contacto", response_model=ContactInfo)
+def obtener_contacto(id_usuario: int, db: Session = Depends(get_db)):
+    usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    return usuario
-
-@usuarios_router.put("/update-contact/{id_usuario}")
-def update_contact(id_usuario: int, contact: ContactInfo, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.id_usuario == id_usuario).first()
-    if not usuario:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-
-    email_existente = db.query(Usuario).filter(Usuario.email == contact.email, Usuario.id_usuario != id_usuario).first()
-    if email_existente:
-        raise HTTPException(status_code=400, detail="El email ya está en uso por otro usuario")
-
-    usuario.nombre_completo = contact.nombre_completo
-    usuario.email = contact.email
-    usuario.telefono = contact.telefono
-
-    db.commit()
-    db.refresh(usuario)
-
-    response = {
-        "message": "Información actualizada con éxito",
-        "data": {
-            "nombre_completo": usuario.nombre_completo,
-            "email": usuario.email,
-            "telefono": usuario.telefono
-        }
+    return {
+        "nombre_completo": usuario.nombre_completo,
+        "email": usuario.email,
+        "telefono": usuario.telefono
     }
-    print("Respuesta que se enviará:", response)
-    return response
 
-@usuarios_router.post("/roles", response_model=RolCreate)
-def crear_rol(rol: RolCreate, db: Session = Depends(get_db)):
-    db_rol = Rol(
-        nombre_rol=rol.nombre_rol,
-        descripcion=rol.descripcion
-    )
-    db.add(db_rol)
-    db.commit()
-    db.refresh(db_rol)
-    return rol
-
-@usuarios_router.post("/{id_usuario}/roles/{id_rol}")
-def asignar_rol(id_usuario: int, id_rol: int, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.id_usuario == id_usuario).first()
+@usuarios_router.post("/{id_usuario}/roles", response_model=RolResponse)
+def asignar_rol(id_usuario: int, rol: RolCreate, db: Session = Depends(get_db)):
+    usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-
-    rol = db.query(Rol).filter(Rol.id_rol == id_rol).first()
-    if not rol:
-        raise HTTPException(status_code=404, detail="Rol no encontrado")
-
-    if rol in usuario.roles:
-        raise HTTPException(status_code=400, detail="El rol ya está asignado al usuario")
-
-    usuario.roles.append(rol)
+    rol_existente = db.query(models.Rol).filter(models.Rol.nombre == rol.nombre).first()
+    if rol_existente:
+        usuario.roles.append(rol_existente)
+    else:
+        db_rol = models.Rol(nombre=rol.nombre)
+        db.add(db_rol)
+        db.commit()
+        db.refresh(db_rol)
+        usuario.roles.append(db_rol)
     db.commit()
-
-    return {"message": f"Rol {rol.nombre_rol} asignado al usuario {usuario.nombre_completo}"}
-
-@usuarios_router.get("/{id_usuario}/roles", response_model=list[RolResponse])
-def get_usuario_roles(id_usuario: int, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.id_usuario == id_usuario).first()
-    if not usuario:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    return usuario.roles
+    return {"nombre": rol.nombre}

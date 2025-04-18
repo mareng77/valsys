@@ -1,7 +1,7 @@
-# routes/transacciones/listar.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
+import models
 from services.transacciones import obtener_transacciones_por_cuenta
 
 listar_transacciones_router = APIRouter(prefix="/transacciones", tags=["transacciones"])
