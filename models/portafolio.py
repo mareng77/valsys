@@ -12,4 +12,5 @@ class Portafolio(Base):
     cantidad = Column(Numeric(15, 4), nullable=False)
     precio_promedio = Column(Numeric(15, 2), nullable=False)
     fecha_ultima_actualizacion = Column(DateTime, default=datetime.utcnow)
-    #activo = relationship("Activo", back_populates="portafolios")
+    cuenta = relationship("Cuenta", back_populates="portafolios")
+    activo = relationship("Activo", back_populates="portafolios")

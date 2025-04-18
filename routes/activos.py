@@ -1,8 +1,10 @@
+# routes/activos.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 import models
 from schemas.activo import ActivoCreate
+from typing import List
 
 activos_router = APIRouter(prefix="/activos", tags=["activos"])
 
@@ -19,3 +21,8 @@ def crear_activo(activo: ActivoCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_activo)
     return activo
+
+@activos_router.get("/", response_model=List[ActivoCreate])
+def listar_activos(db: Session = Depends(get_db)):
+    activos = db.query(models.Activo).all()
+    return activos

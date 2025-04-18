@@ -1,3 +1,4 @@
+# routes/transacciones/crear.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
@@ -9,5 +10,5 @@ crear_transacciones_router = APIRouter(prefix="/transacciones", tags=["transacci
 
 @crear_transacciones_router.post("/", response_model=TransaccionCreate)
 def crear_transaccion(transaccion: TransaccionCreate, db: Session = Depends(get_db)):
-    validar_y_crear_transaccion(db, transaccion)
+    db_transaccion = validar_y_crear_transaccion(db, transaccion)
     return transaccion
