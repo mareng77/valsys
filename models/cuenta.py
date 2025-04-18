@@ -1,8 +1,8 @@
 # models/cuenta.py
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base import Base
-from datetime import datetime
 
 class Cuenta(Base):
     __tablename__ = "cuentas"
@@ -13,4 +13,5 @@ class Cuenta(Base):
     estado = Column(String(20), default="activa")
     fecha_creacion = Column(DateTime, default=datetime.utcnow)
     usuario = relationship("Usuario", back_populates="cuentas")
-    ordenes = relationship("Orden", back_populates="cuenta")
+    portafolios = relationship("Portafolio", back_populates="cuenta")
+    # No agregar transacciones por ahora para aislar el problema

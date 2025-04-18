@@ -1,9 +1,10 @@
 # models/__init__.py
+from .base import Base
 from .usuario import Usuario
-from .cuenta import Cuenta
-from .activo import Activo
-from .portafolio import Portafolio
-from .transaccion import Transaccion
 from .mercado import Mercado
-from .log_operacion import LogOperacion
 from .rol import Rol
+from .log_operacion import LogOperacion
+from .activo import Activo
+from .portafolio import Portafolio  # Importar Portafolio antes que Cuenta
+from .cuenta import Cuenta
+from .transaccion import Transaccion
