@@ -13,4 +13,4 @@ class Activo(Base):
     precio_actual = Column(Numeric(15, 2), nullable=False)
     mercado = Column(String(100), nullable=False)
     fecha_actualizacion = Column(DateTime, default=datetime.utcnow)
-    # Eliminar relaciones por ahora
+    portafolios = relationship("Portafolio", back_populates="activo")

@@ -13,5 +13,3 @@ class Cuenta(Base):
     estado = Column(String(20), default="activa")
     fecha_creacion = Column(DateTime, default=datetime.utcnow)
     usuario = relationship("Usuario", back_populates="cuentas")
-    portafolios = relationship("Portafolio", back_populates="cuenta")
-    # No agregar transacciones por ahora para aislar el problema

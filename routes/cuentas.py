@@ -1,10 +1,9 @@
 # routes/cuentas.py
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from sqlalchemy.orm import Session
+import models
 from database import get_db
-from models.usuario import Usuario
-from models.cuenta import Cuenta
 from schemas.cuenta import CuentaCreate, CuentaResponse
 
 cuentas_router = APIRouter(prefix="/cuentas", tags=["cuentas"])
