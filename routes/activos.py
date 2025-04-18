@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Activo
+import models
 from schemas.activo import ActivoCreate
 
 activos_router = APIRouter(prefix="/activos", tags=["activos"])

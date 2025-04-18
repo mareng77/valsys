@@ -14,5 +14,5 @@ class Orden(Base):
     precio_limite = Column(Numeric(15, 2), nullable=False)
     estado = Column(String(20), nullable=False, default="pendiente")
     fecha_creacion = Column(DateTime, default=datetime.utcnow)
-    cuenta = relationship("Cuenta", back_populates="ordenes")
-    activo = relationship("Activo", back_populates="ordenes")
+    #cuenta = relationship("Cuenta", back_populates="ordenes")
+    #activo = relationship("Activo", back_populates="ordenes")
