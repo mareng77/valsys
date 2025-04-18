@@ -15,5 +15,5 @@ class Transaccion(Base):
     precio_unitario = Column(Numeric(15, 2))
     fecha_transaccion = Column(DateTime, default=datetime.utcnow)
     estado = Column(String(20), default="pendiente")
-    cuenta = relationship("Cuenta", back_populates="transacciones")
-    activo = relationship("Activo", back_populates="transacciones")
+    #cuenta = relationship("Cuenta", back_populates="transacciones")
+    #activo = relationship("Activo", back_populates="transacciones")

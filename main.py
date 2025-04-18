@@ -10,11 +10,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configurar mappers y crear tablas antes de importar rutas
 configure_mappers()
 Base.metadata.create_all(bind=engine)
 
-# Importar rutas después de la configuración de mappers para evitar carga prematura de modelos
 from routes import usuarios_router, cuentas_router, activos_router, crear_transacciones_router, listar_transacciones_router
 
 app.include_router(usuarios_router, prefix="/api/v1", tags=["usuarios"])
