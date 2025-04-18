@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI
 import models
 from database import engine, Base
@@ -13,11 +12,14 @@ app = FastAPI(
 configure_mappers()
 Base.metadata.create_all(bind=engine)
 
-from routes import usuarios_router, cuentas_router, activos_router, crear_transacciones_router, listar_transacciones_router
+from routes.usuarios import usuarios_router
+from routes.activos import activos_router
+from routes.cuentas import cuentas_router
+from routes.transacciones import crear_transacciones_router, listar_transacciones_router
 
 app.include_router(usuarios_router, prefix="/api/v1", tags=["usuarios"])
-app.include_router(cuentas_router, prefix="/api/v1", tags=["cuentas"])
 app.include_router(activos_router, prefix="/api/v1", tags=["activos"])
+app.include_router(cuentas_router, prefix="/api/v1", tags=["cuentas"])
 app.include_router(crear_transacciones_router, prefix="/api/v1", tags=["transacciones"])
 app.include_router(listar_transacciones_router, prefix="/api/v1", tags=["transacciones"])
 

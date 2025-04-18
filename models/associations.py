@@ -1,6 +1,6 @@
 # models/associations.py
 from sqlalchemy import Table, Column, Integer, ForeignKey
-from models.base import Base
+from database import Base
 
 usuario_roles = Table(
     "usuario_roles",

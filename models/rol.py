@@ -1,7 +1,7 @@
 # models/rol.py
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.orm import relationship
-from models.base import Base
+from database import Base
 from models.usuario import usuario_roles  # Import usuario_roles from usuario.py
 from datetime import datetime
 

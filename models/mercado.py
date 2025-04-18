@@ -1,6 +1,6 @@
 # models/mercado.py
 from sqlalchemy import Column, Integer, String, Time
-from models.base import Base
+from database import Base
 
 class Mercado(Base):
     __tablename__ = "Mercados"

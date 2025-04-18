@@ -1,7 +1,7 @@
 # models/usuario.py
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Table, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base import Base
+from database import Base
 from datetime import datetime
 
 # Define the usuario_roles table
