@@ -5,9 +5,9 @@ from database import get_db
 import models
 from schemas.usuario import UsuarioCreate, UsuarioResponse
 
-router = APIRouter()
+crear_usuario_router = APIRouter()
 
-@router.post("/", response_model=UsuarioResponse)
+@crear_usuario_router.post("/usuarios", response_model=UsuarioResponse)
 def crear_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
     email_existente = db.query(models.Usuario).filter(models.Usuario.email == usuario.email).first()
     if email_existente:

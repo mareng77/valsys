@@ -5,9 +5,9 @@ from database import get_db
 import models
 from schemas.usuario import RolCreate, RolResponse
 
-router = APIRouter()
+asignar_rol_router = APIRouter()
 
-@router.post("/{id_usuario}/roles", response_model=RolResponse)
+@asignar_rol_router.post("/{id_usuario}/roles", response_model=RolResponse)
 def asignar_rol(id_usuario: int, rol: RolCreate, db: Session = Depends(get_db)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if not usuario:

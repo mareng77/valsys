@@ -1,4 +1,6 @@
 # schemas/cuenta.py
+from datetime import datetime
+
 from pydantic import BaseModel
 from typing import Optional
 
@@ -14,7 +16,7 @@ class CuentaResponse(BaseModel):
     saldo_disponible: float
     moneda: str
     estado: str
-    fecha_creacion: Optional[str] = None
+    fecha_creacion: datetime
 
     class Config:
         from_attributes = True

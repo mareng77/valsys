@@ -6,9 +6,9 @@ from database import get_db
 import models
 from schemas.cuenta import CuentaCreate, CuentaResponse
 
-router = APIRouter()
+crear_cuenta_router = APIRouter()
 
-@cuentas_router.post("/", response_model=CuentaResponse)
+@crear_cuenta_router.post("/", response_model=CuentaResponse)
 def crear_cuenta(cuenta: CuentaCreate, db: Session = Depends(get_db)):
     try:
         usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == cuenta.id_usuario).first()

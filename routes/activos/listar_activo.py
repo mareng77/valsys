@@ -5,9 +5,9 @@ import models
 from schemas.activo import ActivoResponse
 from typing import List
 
-router = APIRouter()
+listar_activo_router = APIRouter()
 
-@router.get("/", response_model=List[ActivoResponse])
+@listar_activo_router.get("/activos", response_model=List[ActivoResponse])
 def listar_activos(db: Session = Depends(get_db)):
     activos = db.query(models.Activo).all()
     return activos

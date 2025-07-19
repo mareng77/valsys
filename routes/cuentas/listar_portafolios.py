@@ -5,9 +5,9 @@ import models
 from schemas.portafolio import PortafolioResponse
 from typing import List
 
-router = APIRouter()
+listar_portafolios_router = APIRouter()
 
-@router.get("/{id_cuenta}/portafolios", response_model=List[PortafolioResponse])
+@listar_portafolios_router.get("/{id_cuenta}/portafolios", response_model=List[PortafolioResponse])
 def listar_portafolios(id_cuenta: int, db: Session = Depends(get_db)):
     cuenta = db.query(models.Cuenta).filter(models.Cuenta.id_cuenta == id_cuenta).first()
     if not cuenta:

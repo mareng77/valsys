@@ -5,9 +5,9 @@ from database import get_db
 import models
 from schemas.usuario import ContactInfo
 
-router = APIRouter()
+obtener_contacto_router = APIRouter()
 
-@router.get("/{id_usuario}/contacto", response_model=ContactInfo)
+@obtener_contacto_router.get("/{id_usuario}/contacto", response_model=ContactInfo)
 def obtener_contacto(id_usuario: int, db: Session = Depends(get_db)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if not usuario:

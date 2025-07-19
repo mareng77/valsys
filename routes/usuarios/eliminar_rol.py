@@ -4,9 +4,9 @@ from database import get_db
 import models
 from schemas.usuario import RolResponse
 
-router = APIRouter()
+eliminar_rol_router = APIRouter()
 
-@router.delete("/{id_usuario}/roles/{rol_nombre}", response_model=RolResponse)
+@eliminar_rol_router.delete("/{id_usuario}/roles/{rol_nombre}", response_model=RolResponse)
 def eliminar_rol(id_usuario: int, rol_nombre: str, db: Session = Depends(get_db)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if not usuario:

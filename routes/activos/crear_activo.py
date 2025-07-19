@@ -1,13 +1,13 @@
-# routes/activos/create_activo.py
+# routes/activos/crear_activo.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 import models
 from schemas.activo import ActivoCreate
 
-router = APIRouter()
+crear_activo_router = APIRouter()
 
-@router.post("/", response_model=ActivoCreate)
+@crear_activo_router.post("/activos", response_model=ActivoCreate)
 def crear_activo(activo: ActivoCreate, db: Session = Depends(get_db)):
     db_activo = models.Activo(
         tipo_activo=activo.tipo_activo,
