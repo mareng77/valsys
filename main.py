@@ -30,6 +30,8 @@ from routes.cuentas.listar_portafolios import listar_portafolios_router as lista
 from routes.transacciones.listar_transacciones import listar_transacciones_router as listar_transacciones_router
 from routes.transacciones.crear_transacciones import crear_transacciones_router as crear_transacciones_router
 
+# importaciones emision
+from routes.emisiones.emision import emision_router as emision_router
 
 
 #APIS USUARIOS Y ROLES
@@ -51,6 +53,10 @@ app.include_router(listar_portafolios_router, prefix="/api/v1", tags=["cuentas"]
 #APIS TRANSACCIONES
 app.include_router(crear_transacciones_router, prefix="/api/v1", tags=["transacciones"])
 app.include_router(listar_transacciones_router, prefix="/api/v1", tags=["transacciones"])
+
+#APIS EMISION
+
+app.include_router(emision_router, prefix="/api/v1", tags=["emisions"])
 
 
 @app.get("/")
