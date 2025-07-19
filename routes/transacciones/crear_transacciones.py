@@ -6,7 +6,7 @@ from database import get_db
 import models
 from schemas.transaccion import TransaccionCreate, TransaccionResponse
 
-crear_transacciones_router = APIRouter(prefix="/transacciones", tags=["Transacciones"])
+crear_transacciones_router = APIRouter(prefix="/transacciones", tags=["transacciones"])
 
 
 @crear_transacciones_router.post("/", response_model=TransaccionResponse)
@@ -36,16 +36,16 @@ def crear_transaccion(transaccion: TransaccionCreate, db: Session = Depends(get_
             raise HTTPException(status_code=400, detail="Saldo insuficiente")
 
         # Verificar existencia del activo para compras y ventas
-        if transaccion.tipo_transaccion in ["compra", "venta"] and transaccion.id_activo:
-            activo = db.query(models.Activo).filter(models.Activo.id_activo == transaccion.id_activo).first()
-            if not activo:
-                raise HTTPException(status_code=404, detail="Activo no encontrado")
-
-        # Validar que id_activo, cantidad y precio_unitario estén presentes solo para compras y ventas
-        if transaccion.tipo_transaccion in ["deposito", "retiro"]:
-            if transaccion.id_activo or transaccion.cantidad or transaccion.precio_unitario:
-                raise HTTPException(status_code=400,
-                                    detail="id_activo, cantidad y precio_unitario deben ser nulos para deposito/retiro")
+        if transaccion.tipo_transaccion in ["compra", "venta"]:
+            if transaccion.id_activo:
+                activo = db.query(models.Activo).filter(models.Activo.id_activo == transaccion.id_activo).first()
+                if not activo:
+                    raise HTTPException(status_code=404, detail="Activo no encontrado")
+            # Verificar que el activo esté vinculado a un valor activo
+            valor = db.query(models.Valor).filter(models.Valor.id_activo == transaccion.id_activo,
+                                                  models.Valor.estado == "activo").first()
+            if not valor:
+                raise HTTPException(status_code=400, detail="Activo no vinculado a un valor activo")
 
         # Actualizar saldo de la cuenta
         if transaccion.tipo_transaccion == "compra":

@@ -1,8 +1,8 @@
 # models/transaccion.py
 from datetime import datetime
 from database import Base
-from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey
-
+from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey, CheckConstraint
+#from sqlalchemy.orm import relationship
 
 class Transaccion(Base):
     __tablename__ = "transacciones"
@@ -17,3 +17,8 @@ class Transaccion(Base):
     estado = Column(String(20), default="pendiente")
     #cuenta = relationship("Cuenta", back_populates="transacciones")
     #activo = relationship("Activo", back_populates="transacciones")
+    __table_args__ = (
+        CheckConstraint("tipo_transaccion IN ('compra', 'venta', 'deposito', 'retiro')",
+                        name="transacciones_tipo_transaccion_check"),
+        CheckConstraint("monto >= 0", name="transacciones_monto_check"),
+    )
