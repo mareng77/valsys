@@ -8,7 +8,7 @@ import models
 from schemas.emision import EmisorCreate, EmisorResponse, ProgramaEmisionCreate, ProgramaEmisionResponse, ValorCreate, \
     ValorResponse
 
-emision_router = APIRouter(prefix="/emision", tags=["emissions"])
+emision_router = APIRouter(prefix="/emision", tags=["Emisiones"])
 
 
 @emision_router.post("/emisores/", response_model=EmisorResponse)

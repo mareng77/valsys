@@ -56,7 +56,7 @@ app.include_router(listar_transacciones_router, prefix="/api/v1", tags=["transac
 
 #APIS EMISION
 
-app.include_router(emision_router, prefix="/api/v1", tags=["emisions"])
+app.include_router(emision_router, prefix="/api/v1", tags=["Emisiones"])
 
 
 @app.get("/")

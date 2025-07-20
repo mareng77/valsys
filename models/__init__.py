@@ -7,3 +7,6 @@ from .portafolio import Portafolio
 from .cuenta import Cuenta
 from .transaccion import Transaccion
 from .orden import Orden
+from .emisor import Emisor
+from .programa_emision import ProgramaEmision
+from .valor import Valor
