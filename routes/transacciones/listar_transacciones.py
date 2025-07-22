@@ -5,7 +5,7 @@ from database import get_db
 import models
 from schemas.transaccion import TransaccionResponse
 
-listar_transacciones_router = APIRouter(prefix="/transacciones", tags=["Transacciones"])
+listar_transacciones_router = APIRouter(prefix="/transacciones", tags=["transacciones"])
 
 
 @listar_transacciones_router.get("/{id_cuenta}", response_model=List[TransaccionResponse])
